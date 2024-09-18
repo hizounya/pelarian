@@ -67,3 +67,11 @@ csrf_token berfungsi untuk melindungi form dari serangan CSRF (Cross-Site Reques
 -Setelah itu, saya menyiapkan views yang menampilkan data dalam format XML dan JSON.
 -Saya melakukan testing dengan Postman dan memastikan semua berjalan dengan baik sebelum melakukan deployment ke PWS
 
+Screenshot Postman
+XML
+![Screenshot 1](images/1.png)
+![Screenshot 2](images/2.png)gi
+
+JSON
+![Screenshot 3](images/3.png)
+![Screenshot 4](images/4.png)
