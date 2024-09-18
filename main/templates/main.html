@@ -1,8 +1,32 @@
-<h1>Pelarian</h1>
+{% extends 'base.html' %}
 
-<h5>Nama item : </h5>
-<p>Oversize t-shirt kalcer</p> <!-- Ubah sesuai dengan npm kamu -->
-<h5>Harga : </h5>
-<p>Rp198.000,00</p> <!-- Ubah sesuai dengan nama kamu -->
-<h5>Deskripsi : </h5>
-<p>Baju lari untuk pelari kalcer Jakarta only</p> <!-- Ubah sesuai dengan kelas kamu -->
+{% block content %}
+  <h1>Pelarian</h1>
+
+  {% if not items_entries %}
+    <p>Belum ada data item pada pelarian.</p>
+  {% else %}
+    <table>
+      <tr>
+        <th>nama_item</th>
+        <th>harga</th>
+        <th>deskripsi</th>
+      </tr>
+
+      {% comment %} Berikut cara memperlihatkan data item di bawah baris ini {% endcomment %}
+      {% for item_entry in  items_entries %}
+      <tr>
+        <td>{{ item_entry.nama_item }}</td>
+        <td>{{ item_entry.harga }}</td>
+        <td>{{ item_entry.deskripsi }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  <br />
+
+  <a href="{% url 'main:create_item_entry' %}">
+    <button>Add New Item Entry</button>
+  </a>
+{% endblock content %}

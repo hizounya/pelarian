@@ -1,11 +1,11 @@
 from django.db import models
+import uuid 
 
-class MoodEntry(models.Model):
-    mood = models.CharField(max_length=255)
-    time = models.DateField(auto_now_add=True)
-    feelings = models.TextField()
-    mood_intensity = models.IntegerField()
+class ItemEntry(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nama_item = models.CharField(max_length=100)
+    harga = models.IntegerField()
+    deskripsi = models.TextField()
 
-    @property
-    def is_mood_strong(self):
-        return self.mood_intensity > 5
+    def __str__(self):
+        return self.nama_item
