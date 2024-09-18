@@ -1,3 +1,5 @@
+
+
 1) Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 - Buat repositori lokal mental-health-tracker dan hubungkan ke GitHub menggunakan git init dan git remote add origin.
 
@@ -30,12 +32,15 @@ Django dipilih sebagai framework pembelajaran awal karena memiliki struktur yang
 
 5)  Mengapa model pada Django disebut sebagai ORM?
 
-Model pada Django disebut ORM karena berfungsi sebagai alat yang menghubungkan basis data relasional dengan objek dalam kode Python. Dengan ORM, pengembang dapat mengelola database menggunakan kode Python tanpa harus menulis query SQL secara langsung, sehingga mempermudah interaksi dengan database.
 
 Model pada Django disebut ORM karena berfungsi sebagai alat yang menghubungkan basis data relasional dengan objek dalam kode Python. Dengan ORM, pengembang dapat mengelola database menggunakan kode Python tanpa harus menulis query SQL secara langsung, sehingga mempermudah interaksi dengan database.
+
+
 
 
 TUGAS 3
+
+
 
 1. Mengapa kita memerlukan data delivery?
 
@@ -55,9 +60,10 @@ csrf_token berfungsi untuk melindungi form dari serangan CSRF (Cross-Site Reques
 
 5. Bagaimana cara kamu mengimplementasikan checklist di atas secara langkah demi langkah?
 
+
 -Saya mulai dengan membuat model dan form yang diperlukan.
 -Selanjutnya, saya membuat views untuk menangani input form dan memvalidasi datanya.
 -Dalam template form, saya menambahkan csrf_token untuk keamanan.
 -Setelah itu, saya menyiapkan views yang menampilkan data dalam format XML dan JSON.
--Saya melakukan testing dengan Postman dan memastikan semua berjalan dengan baik sebelum melakukan deployment ke PWS.
+-Saya melakukan testing dengan Postman dan memastikan semua berjalan dengan baik sebelum melakukan deployment ke PWS
 
