@@ -70,7 +70,7 @@ csrf_token berfungsi untuk melindungi form dari serangan CSRF (Cross-Site Reques
 Screenshot Postman
 XML
 ![Screenshot 1](images/1.png)
-![Screenshot 2](images/2.png)gi
+![Screenshot 2](images/2.png)
 
 JSON
 ![Screenshot 3](images/3.png)
