@@ -1,6 +1,82 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <style>
+    table {
+      width: 80%;
+      margin: 25px auto;
+      border-collapse: collapse;
+      font-size: 16px;
+      text-align: left;
+      background-color: #fff0f5;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ffc1cc;
+    }
+
+    th {
+      background-color: #ff99a9;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #ffe4e9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff6f91;
+      font-size: 28px;
+      margin-top: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .buttons a button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      background-color: #ff6f91;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .buttons a button:hover {
+      background-color: #ff4f73;
+    }
+
+    .last-login {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #777;
+    }
+
+    p {
+      text-align: center;
+      font-size: 16px;
+      color: #333;
+      margin-top: 20px;
+    }
+
+    body {
+      background-color: #ffe4e9;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+
   <h1>Pelarian</h1>
 
   {% if not items_entries %}
@@ -8,13 +84,12 @@
   {% else %}
     <table>
       <tr>
-        <th>nama_item</th>
-        <th>harga</th>
-        <th>deskripsi</th>
+        <th>Nama Item</th>
+        <th>Harga</th>
+        <th>Deskripsi</th>
       </tr>
-
-      {% comment %} Berikut cara memperlihatkan data item di bawah baris ini {% endcomment %}
-      {% for item_entry in  items_entries %}
+      {% comment %} Menampilkan data item {% endcomment %}
+      {% for item_entry in items_entries %}
       <tr>
         <td>{{ item_entry.nama_item }}</td>
         <td>{{ item_entry.harga }}</td>
@@ -24,15 +99,17 @@
     </table>
   {% endif %}
 
-  <br />
+  <div class="buttons">
+    <a href="{% url 'main:create_item_entry' %}">
+      <button>Buat Item Baru</button>
+    </a>
 
-  <a href="{% url 'main:create_item_entry' %}">
-    <button>Login</button>
-  </a>
+    <a href="{% url 'main:logout' %}">
+      <button>Logout</button>
+    </a>
+  </div>
 
-  <a href="{% url 'main:logout' %}">
-    <button>Logout</button>
-  </a>
-
-  <h5>Sesi terakhir login: {{ last_login }}</h5>
-{% endblock content %}
+  <div class="last-login">
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+  </div>
+{% endblock %}

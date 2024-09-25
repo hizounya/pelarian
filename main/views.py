@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render,  redirect
 from main.forms import ItemForm
 from main.models import ItemEntry
 from django.http import HttpResponse
@@ -38,6 +38,7 @@ def create_item_entry(request):
 
     context = {'form': form}
     return render(request, 'create_item_entry.html', context)
+
 
 
 def register(request):

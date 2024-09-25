@@ -75,3 +75,41 @@ XML
 JSON
 ![Screenshot 3](images/3.png)
 ![Screenshot 4](images/4.png)
+
+
+TUGAS 4
+
+1) Apa perbedaan antara HttpResponseRedirect() dan redirect()
+-HttpResponseRedirect() digunakan untuk mengarahkan pengguna ke URL baru dengan kode status 302.
+-redirect() adalah fungsi yang lebih simpel dan fleksibel, karena bisa menerima URL, nama view, atau objek, lalu otomatis menggunakan HttpResponseRedirect() di balik layar.
+
+2) Jelaskan cara kerja penghubungan model Product dengan User!
+Model Product dapat dihubungkan dengan User menggunakan ForeignKey, yang berarti setiap produk dimiliki oleh satu pengguna. Ini memungkinkan tiap pengguna memiliki daftar produk yang mereka buat.
+
+3) Apa perbedaan antara authentication dan authorization, dan bagaimana pengguna login di Django?
+Authentication memverifikasi identitas pengguna (misal, login), sedangkan authorization menentukan hak akses pengguna (misal, bisa edit data atau tidak). Saat login, Django melakukan authentication dengan memvalidasi username dan password. Django mengelola authentication menggunakan authenticate() dan login(), sedangkan authorization dilakukan lewat permissions yang diberikan ke pengguna.
+
+4) Bagaimana Django mengingat pengguna yang telah login?
+Django menggunakan session cookies untuk mengingat pengguna yang telah login. Cookie ini menyimpan ID session di browser pengguna. Cookies juga bisa digunakan untuk keperluan lain seperti menyimpan preferensi pengguna, tetapi tidak semua cookies aman, terutama jika tidak dienkripsi.
+
+5) Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (
+-Membuat fungsi register dan login
+Di views.py, saya menambahkan fungsi register() menggunakan UserCreationForm untuk memudahkan pengguna dalam membuat akun. Kemudian, saya menambahkan fungsi login_user() yang menggunakan AuthenticationForm untuk autentikasi pengguna.
+
+-Membuat halaman register dan login
+Saya membuat dua file HTML baru, yaitu register.html dan login.html, masing-masing untuk menampilkan form pendaftaran dan login. Kedua file ini memanfaatkan template dari base.html.
+
+-Menambahkan URL path untuk register dan login
+Di urls.py, saya menambahkan path baru untuk fungsi register dan login, sehingga pengguna bisa mengakses halaman pendaftaran dan login melalui URL /register/ dan /login/.
+
+-Membuat fungsi logout
+Saya menambahkan fungsi logout_user() di views.py yang memanfaatkan Django logout() untuk menghapus sesi pengguna yang sedang login dan mengarahkan kembali ke halaman login.
+
+-Restriksi akses halaman utama
+Untuk memastikan hanya pengguna yang sudah login bisa mengakses halaman utama, saya menggunakan @login_required di atas fungsi show_main() di views.py. Jika pengguna belum login, mereka akan diarahkan ke halaman login.
+
+-Menghubungkan model dengan User
+Di model MoodEntry, saya menambahkan user = models.ForeignKey(User, on_delete=models.CASCADE) untuk mengaitkan setiap mood entry dengan pengguna yang membuatnya. Selanjutnya, saya memodifikasi fungsi create_mood_entry() untuk menyimpan data user saat pengguna membuat entry baru.
+
+-Menampilkan dan menghapus session/cookies
+Saya menambahkan cookie last_login saat pengguna berhasil login menggunakan response.set_cookie('last_login', str(datetime.datetime.now())). Selain itu, cookie ini dihapus saat pengguna logout dengan response.delete_cookie('last_login').

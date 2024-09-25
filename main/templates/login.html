@@ -5,6 +5,91 @@
 {% endblock meta %}
 
 {% block content %}
+<style>
+  .login {
+    width: 350px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ffccd5;
+    border-radius: 8px;
+    background-color: #fff0f5;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .login h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #ff6f91;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .login table {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .login table td {
+    padding: 12px 0;
+  }
+
+  .login input[type="text"],
+  .login input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ff99a9;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #ffe4e9;
+  }
+
+  .login_btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff6f91;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+  }
+
+  .login_btn:hover {
+    background-color: #ff4f73;
+  }
+
+  .messages ul {
+    padding: 0;
+    margin: 15px 0;
+    list-style-type: none;
+    color: red;
+    font-size: 14px;
+  }
+
+  .register-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .register-link a {
+    color: #ff6f91;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+
+  body {
+    background-color: #ffe4e9;
+    font-family: Arial, sans-serif;
+  }
+</style>
+
 <div class="login">
   <h1>Login</h1>
 
@@ -20,13 +105,19 @@
   </form>
 
   {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %} Don't have an account yet?
-  <a href="{% url 'main:register' %}">Register Now</a>
+  <div class="messages">
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="register-link">
+    Don't have an account yet? 
+    <a href="{% url 'main:register' %}">Register Now</a>
+  </div>
 </div>
 
 {% endblock content %}
