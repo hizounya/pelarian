@@ -113,3 +113,27 @@ Di model MoodEntry, saya menambahkan user = models.ForeignKey(User, on_delete=mo
 
 -Menampilkan dan menghapus session/cookies
 Saya menambahkan cookie last_login saat pengguna berhasil login menggunakan response.set_cookie('last_login', str(datetime.datetime.now())). Selain itu, cookie ini dihapus saat pengguna logout dengan response.delete_cookie('last_login').
+
+
+TUGAS 5
+
+1. Urutan Prioritas CSS Selector
+Urutan prioritas: inline styles > ID > class > tag selector. Jika ada !important, maka dia yang diutamakan.
+
+2. Pentingnya Responsive Design
+Responsive design penting agar aplikasi terlihat baik di semua perangkat. Contoh yang sudah responsif: Twitter. Contoh yang belum responsif: beberapa situs lama yang tidak menyesuaikan ukuran layar
+
+
+3. Perbedaan Margin, Border, dan Padding
+Margin: jarak di luar elemen.
+Border: garis di sekitar elemen.
+Padding: jarak antara konten dan batas elemen.
+
+4. Flexbox dan Grid Layout
+Flexbox: tata letak yang fleksibel untuk item dalam satu arah (baris/kolom). Grid: tata letak yang lebih kompleks dalam dua dimensi (baris dan kolom).
+
+5. Implementasi Step-by-Step
+
+Saya memulai dengan mengatur project dan memastikan struktur foldernya jelas, serta menginstal semua dependensi yang dibutuhkan. Setelah itu, saya membuat form dengan Django untuk mengatur input data dan menampilkannya di template. Untuk styling, saya menambahkan CSS dasar dan menggunakan media queries agar tampilan responsif di berbagai ukuran layar.
+
+Pada bagian tata letak, saya memanfaatkan flexbox untuk mengatur elemen seperti navbar dan daftar item agar fleksibel dan mudah beradaptasi dengan ukuran layar yang lebih kecil. Selain itu, untuk halaman yang lebih kompleks, saya menggunakan grid layout. Setelah semua fitur diimplementasikan, saya menguji aplikasi di berbagai perangkat dan browser untuk memastikan semuanya berfungsi dengan baik.

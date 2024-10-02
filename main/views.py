@@ -12,32 +12,55 @@ from django.http import HttpResponse
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.shortcuts import reverse
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 @login_required(login_url='/login')
 def show_main(request):
-    item_entries = ItemEntry.objects.filter(user=request.user)  # Fetch all item entries from the database
+    item_entries = ItemEntry.objects.filter(user=request.user)  # Fetch all item entries
     context = {
         'name': request.user.username,
-        'items_entries' : item_entries,
-        'last_login' : request.COOKIES.get('last_login' , 'Not available'),
+        'items_entries': item_entries,
+        'last_login': request.COOKIES.get('last_login', 'Not available'),
     }
-
     return render(request, "main.html", context)
 
 def create_item_entry(request):
-    form = ItemForm(request.POST or None)
-
-    if request.method == "POST" and form.is_valid():
-        item_entry = form.save(commit=False)
-        item_entry.user = request.user  # Associate the item with the current user
-        item_entry.save()  # Save the item to the database
-        return redirect('main:show_main')
+    if request.method == "POST":
+        form = ItemForm(request.POST)
+        if form.is_valid():
+            item_entry = form.save(commit=False)
+            item_entry.user = request.user  # Menetapkan user yang sedang login ke item
+            item_entry.save()  # Simpan item ke database
+            return redirect('main:show_main')  # Redirect kembali ke halaman utama
+        else:
+            print(form.errors)  # Debug: Menampilkan error form jika ada
     else:
-        print(form.errors)  # Debug: Check if there are form errors
-
+        form = ItemForm()
+    
     context = {'form': form}
     return render(request, 'create_item_entry.html', context)
+
+
+
+def edit_item(request, id):
+    item_entry = ItemEntry.objects.get(pk=id)  # Mengambil item berdasarkan ID
+    form = ItemForm(request.POST or None, instance=item_entry)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_item.html", context)
+
+
+def delete_item(request, id):
+    item_entry = ItemEntry.objects.get(pk=id)
+
+    item_entry.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
 
 
 

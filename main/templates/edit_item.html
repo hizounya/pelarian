@@ -1,19 +1,29 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block meta %}
-<title>Create Item</title>
+<title>Edit Item</title>
 {% endblock meta %}
 
 {% block content %}
 {% include 'navbar.html' %}
-
 <div class="flex flex-col min-h-screen bg-gray-100">
   <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
-    <h1 class="text-3xl font-bold text-center mb-8 text-black">Create Item Entry</h1>
+    <h1 class="text-3xl font-bold text-center mb-8 text-black">Edit Item Entry</h1>
   
-    <div class="bg-white shadow-md rounded-lg p-6 form-style">
-      <form method="POST" class="space-y-6">
+    <div class="bg-white rounded-lg p-6 form-style">
+      <form method="POST" action="{% url 'main:edit_item' item.id %}" class="space-y-6">
         {% csrf_token %}
+        
+        <!-- Non-field errors (jika ada) -->
+        {% if form.non_field_errors %}
+          <div class="text-red-600 text-sm">
+            {% for error in form.non_field_errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+        
+        <!-- Loop untuk field di dalam form -->
         {% for field in form %}
           <div class="flex flex-col">
             <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-700">
@@ -30,14 +40,22 @@
             {% endfor %}
           </div>
         {% endfor %}
+        
+        <!-- Tombol Submit -->
         <div class="flex justify-center mt-6">
           <button type="submit" class="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out w-full">
-            Create Item Entry
+            Edit Item Entry
           </button>
         </div>
       </form>
+
+      <!-- Tombol Kembali ke Daftar Item -->
+      <div class="flex justify-center mt-4">
+        <a href="{% url 'main:show_main' %}" class="text-center bg-gray-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-gray-600 transition duration-300 ease-in-out w-full">
+          Kembali ke Daftar Item
+        </a>
+      </div>
     </div>
   </div>
 </div>
-
 {% endblock %}

@@ -1,115 +1,68 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Mental Health Tracker</title>
+{% endblock meta %}
 
 {% block content %}
-  <style>
-    table {
-      width: 80%;
-      margin: 25px auto;
-      border-collapse: collapse;
-      font-size: 16px;
-      text-align: left;
-      background-color: #fff0f5;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid #ffc1cc;
-    }
-
-    th {
-      background-color: #ff99a9;
-      color: white;
-    }
-
-    tr:hover {
-      background-color: #ffe4e9;
-    }
-
-    h1 {
-      text-align: center;
-      color: #ff6f91;
-      font-size: 28px;
-      margin-top: 20px;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      margin: 20px 0;
-    }
-
-    .buttons a button {
-      padding: 10px 20px;
-      margin: 0 10px;
-      background-color: #ff6f91;
-      border: none;
-      color: white;
-      cursor: pointer;
-      border-radius: 6px;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
-    }
-
-    .buttons a button:hover {
-      background-color: #ff4f73;
-    }
-
-    .last-login {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 14px;
-      color: #777;
-    }
-
-    p {
-      text-align: center;
-      font-size: 16px;
-      color: #333;
-      margin-top: 20px;
-    }
-
-    body {
-      background-color: #ffe4e9;
-      font-family: Arial, sans-serif;
-    }
-  </style>
-
-  <h1>Pelarian</h1>
-
-  {% if not items_entries %}
-    <p>Belum ada data item pada pelarian.</p>
+{% include 'navbar.html' %}
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-gray-100 flex flex-col">
+  <div class="p-2 mb-6 relative">
+    <div class="relative grid grid-cols-1 z-30 md:grid-cols-3 gap-8">
+      {% include "card_info.html" with title='Name' value=name %}
+    </div>
+    <div class="w-full px-6 absolute top-[44px] left-0 z-20 hidden md:flex">
+      <div class="w-full min-h-4 bg-indigo-700"></div>
+    </div>
+    <div class="h-full w-full py-6 absolute top-0 left-0 z-20 md:hidden flex">
+      <div class="h-full min-w-4 bg-indigo-700 mx-auto"></div>
+    </div>
+  </div>
+  
+  <div class="px-3 mb-4">
+    <div class="flex rounded-md items-center bg-indigo-600 py-2 px-4 w-fit">
+      <h1 class="text-white text-center">Last Login: {{last_login}}</h1>
+    </div>
+  </div>
+  
+  <div class="flex justify-end mb-6">
+    <a href="{% url 'main:create_item_entry' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+        Add New Item Entry
+    </a>
+  </div>
+  
+  {% if not items_entries is None or not items_entries %}
+  <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+    <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+    <p class="text-center text-gray-600 mt-4">Belum ada data item pada Pelarian.</p>
+  </div>
   {% else %}
-    <table>
-      <tr>
-        <th>Nama Item</th>
-        <th>Harga</th>
-        <th>Deskripsi</th>
-      </tr>
-      {% comment %} Menampilkan data item {% endcomment %}
-      {% for item_entry in items_entries %}
-      <tr>
-        <td>{{ item_entry.nama_item }}</td>
-        <td>{{ item_entry.harga }}</td>
-        <td>{{ item_entry.deskripsi }}</td>
-      </tr>
-      {% endfor %}
+  <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full">
+    <table class="w-full table-auto bg-white shadow-md rounded-lg overflow-hidden">
+      <thead class="bg-indigo-600 text-white">
+        <tr>
+          <th class="py-3 px-6 text-left">Nama Item</th>
+          <th class="py-3 px-6 text-left">Harga</th>
+          <th class="py-3 px-6 text-left">Deskripsi</th>
+          <th class="py-3 px-6 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        {% for item_entry in items_entries %}
+        <tr class="border-b">
+          <td class="py-3 px-6">{{ item_entry.nama_item }}</td>
+          <td class="py-3 px-6">{{ item_entry.harga }}</td>
+          <td class="py-3 px-6">{{ item_entry.deskripsi }}</td>
+          <td class="py-3 px-6">
+            <a href="{% url 'main:edit_item' item_entry.pk %}" class="text-indigo-600 hover:underline">Edit</a> |
+            <a href="{% url 'main:delete_item' item_entry.pk %}" class="text-red-600 hover:underline">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
+  </div>
   {% endif %}
-
-  <div class="buttons">
-    <a href="{% url 'main:create_item_entry' %}">
-      <button>Buat Item Baru</button>
-    </a>
-
-    <a href="{% url 'main:logout' %}">
-      <button>Logout</button>
-    </a>
-  </div>
-
-  <div class="last-login">
-    <h5>Sesi terakhir login: {{ last_login }}</h5>
-  </div>
-{% endblock %}
+</div>
+{% endblock content %}
