@@ -21,28 +21,29 @@ def show_main(request):
     item_entries = ItemEntry.objects.filter(user=request.user)  # Fetch all item entries
     context = {
         'name': request.user.username,
+        'class': 'PBP B',
+        'npm': '2306245661',
         'items_entries': item_entries,
         'last_login': request.COOKIES.get('last_login', 'Not available'),
     }
     return render(request, "main.html", context)
 
 def create_item_entry(request):
-    if request.method == "POST":
-        form = ItemForm(request.POST)
-        if form.is_valid():
-            item_entry = form.save(commit=False)
-            item_entry.user = request.user  # Menetapkan user yang sedang login ke item
-            item_entry.save()  # Simpan item ke database
-            return redirect('main:show_main')  # Redirect kembali ke halaman utama
-        else:
-            print(form.errors)  # Debug: Menampilkan error form jika ada
-    else:
-        form = ItemForm()
-    
+    form = ItemForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        # Save the form data but don't commit it to the database yet
+        item_entry = form.save(commit=False)
+        # Assign the logged-in user as the creator of the item entry
+        item_entry.user = request.user
+        # Save the entry to the database
+        item_entry.save()
+        # Redirect to the main page (or anywhere else after saving)
+        return redirect('main:show_main')  # Replace 'item_entry_tracker' with your actual URL name
+
+    # If the form isn't valid or it's a GET request, render the form page again
     context = {'form': form}
-    return render(request, 'create_item_entry.html', context)
-
-
+    return render(request, "create_item_entry.html", context)
 
 def edit_item(request, id):
     item_entry = ItemEntry.objects.get(pk=id)  # Mengambil item berdasarkan ID
@@ -55,14 +56,11 @@ def edit_item(request, id):
     context = {'form': form}
     return render(request, "edit_item.html", context)
 
-
 def delete_item(request, id):
     item_entry = ItemEntry.objects.get(pk=id)
 
     item_entry.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
-
-
 
 def register(request):
     form = UserCreationForm()

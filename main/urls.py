@@ -5,14 +5,13 @@ from main.views import login_user
 from main.views import logout_user
 from main.views import edit_item
 from main.views import delete_item
-from . import views
 
 app_name = 'main' 
 
 urlpatterns = [
     path('', show_main, name='show_main'),
     path('create-item-entry/',create_item_entry, name='create_item_entry'),
-    path('edit-item/<uuid:id>/', views.edit_item, name='edit_item'),
+    path('edit-item/<uuid:id>/',edit_item, name='edit_item'),
     path('delete/<uuid:id>', delete_item, name='delete_item'),
     path('xml/', show_xml, name='show_xml'),
     path('json/', show_json, name='show_json'),
