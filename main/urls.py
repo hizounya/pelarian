@@ -16,6 +16,6 @@ urlpatterns = [
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
     path('edit-item/<uuid:id>', edit_item, name='edit_item'),
-    path('delete/<uuid:id>', delete_item, name='delete_item'),
+    path('delete-item/<uuid:id>', delete_item, name='delete_item'),
     path('create-item-entry-ajax', add_item_entry_ajax, name='add_item_entry_ajax'),
 ]

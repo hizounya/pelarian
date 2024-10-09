@@ -17,6 +17,7 @@ from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
+from django.http import JsonResponse
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -136,3 +137,14 @@ def add_item_entry_ajax(request):
     )
     new_item.save()
     return HttpResponse(b"CREATED", status=201)
+
+@csrf_exempt
+def delete_item_entry(request, item_id):
+    if request.method == 'DELETE':
+        try:
+            item = ItemEntry.objects.get(pk=item_id)
+            item.delete()
+            return JsonResponse({'success': True}, status=200)
+        except ItemEntry.DoesNotExist:
+            return JsonResponse({'error': 'Item not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request method'}, status=400)

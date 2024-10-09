@@ -2,49 +2,57 @@
 {% load static %}
 
 {% block meta %}
-<title>Pelarian</title>
+<title>Item Tracker</title>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 {% endblock meta %}
 
 {% block content %}
 {% include 'navbar.html' %}
-<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-gray-100 flex flex-col">
-  <div class="p-2 mb-6 relative">
-    <div class="relative grid grid-cols-1 z-30 md:grid-cols-3 gap-8">
-      {% include "card_info.html" with title='NPM' value=npm %}
-      {% include "card_info.html" with title='Name' value=name %}
-      {% include "card_info.html" with title='Class' value=class %}
-    </div>
-    <div class="w-full px-6 absolute top-[44px] left-0 z-20 hidden md:flex">
-      <div class="w-full min-h-4 bg-indigo-700"></div>
-    </div>
-    <div class="h-full w-full py-6 absolute top-0 left-0 z-20 md:hidden flex">
-      <div class="h-full min-w-4 bg-indigo-700 mx-auto"></div>
-    </div>
-  </div>
-  
-  <div class="px-3 mb-4">
-    <div class="flex rounded-md items-center bg-indigo-600 py-2 px-4 w-fit">
-      <h1 class="text-white text-center">Last Login: {{last_login}}</h1>
-    </div>
-  </div>
 
-  <!-- Add New Item Button -->
-  <div class="flex justify-center sm:justify-end mt-8 mb-6">
-    <a href="{% url 'main:create_item_entry' %}" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 mr-4">
-      Add New Item Entry
-    </a>
-    <button class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">
-      Add New Item by AJAX
-    </button>
+<!-- Background Black and Dark Theme -->
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-black text-white bg-cover bg-center" style="background-image: url('{% static "main.png" %}');">
+  <div class="flex flex-col items-start justify-center min-h-screen">
+    <div class="max-w-sm bg-white rounded-xl overflow-hidden border-2 border-gray-200 shadow-md p-4 ml-0 lg:ml-4 sm:self-center lg:self-start">
+        <div class="mb-4">
+            <h5 class="text-lg font-semibold text-gray-800">Welcome, <span class="font-bold">{{ user.username }}</span>!</h5>
+        </div>
+        <div class="mb-4">
+            <h5 class="text-lg font-semibold text-gray-800">NPM</h5>
+            <p class="text-gray-800">{{ npm }}</p>
+        </div>
+        <div>
+            <h5 class="text-lg font-semibold text-gray-800">Class</h5>
+            <p class="text-gray-800">{{ class }}</p>
+        </div>
+    </div>
   </div>
+</div>
 
-  <!-- Item entries container -->
-  <div id="card_info" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    <!-- Item entries will be dynamically inserted here -->
+<!-- Last Login Section -->
+<div class="px-3 mb-4 flex justify-center sm:justify-start">
+  <div class="flex rounded-md items-center bg-gray-800 py-2 px-4 w-fit">
+    <h1 class="text-white text-center">Last Login: {{ last_login }}</h1>
   </div>
+</div>
 
-  <!-- Modal for adding new item -->
+<!-- Your Item Collection Heading -->
+<div class="px-4 py-4">
+  <p class="text-center text-gray-400 mt-2">You can add, edit, or delete any product collection!</p>
+</div>
+
+<div id="card_info"></div>
+
+<!-- Add New Item Button -->
+<div class="flex justify-center sm:justify-end mt-8 mb-6">
+  <a href="{% url 'main:create_item_entry' %}" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+    Add New Item Entry
+  </a>
+  <button class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 ml-4" onclick="showModal();">
+    Add New Item by AJAX
+  </button>
+</div>
+
+<!-- Modal for adding new item -->
 <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
   <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
     <!-- Modal header -->
@@ -65,15 +73,15 @@
         {% csrf_token %}
         <div class="mb-4">
           <label for="nama_item" class="block text-sm font-medium text-gray-700">Nama Item</label>
-          <input type="text" id="nama_item" name="nama_item" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter item name" required>
+          <input type="text" id="nama_item" name="nama_item" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter your item name" required>
         </div>
         <div class="mb-4">
           <label for="harga" class="block text-sm font-medium text-gray-700">Harga</label>
-          <input type="number" id="harga" name="harga" min="0" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter item price" required>
+          <input type="number" id="harga" name="harga" min="0" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter product price" required>
         </div>
         <div class="mb-4">
           <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
-          <textarea id="deskripsi" name="deskripsi" rows="3" class="mt-1 block w-full resize-none border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter item description" required></textarea>
+          <textarea id="deskripsi" name="deskripsi" rows="3" class="mt-1 block w-full resize-none border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter product description" required></textarea>
         </div>
         <div class="mb-4">
           <label for="size" class="block text-sm font-medium text-gray-700">Size</label>
@@ -98,109 +106,112 @@
 </div>
 
 <script>
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
+  async function getItemEntries(){
+      return fetch("{% url 'main:show_json' %}").then((res) => res.json());
   }
 
+  async function refreshItemEntries() {
+    const cardInfo = document.getElementById("card_info");
+    cardInfo.innerHTML = "";
+    cardInfo.className = "";
+
+    const itemEntries = await getItemEntries();  // Fetch the item entries
+    let htmlString = "";
+    let classNameString = "";
+
+    if (itemEntries.length === 0) {
+        classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+        htmlString = `
+            <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                <img src="{% static 'sedih-banget.png' %}" alt="No data" class="w-32 h-32 mb-4"/>
+                <p class="text-center text-gray-600 mt-4">No item entries available.</p>
+            </div>
+        `;
+    } else {
+        classNameString = "columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full";
+        
+        itemEntries.forEach((item) => {
+            const nama_item = DOMPurify.sanitize(item.fields.nama_item);  
+            const harga = DOMPurify.sanitize(item.fields.harga);  
+            const deskripsi = DOMPurify.sanitize(item.fields.deskripsi);
+            const size = DOMPurify.sanitize(item.fields.size || 'N/A');
+            const warna = DOMPurify.sanitize(item.fields.warna || 'N/A');
+            const jumlah = DOMPurify.sanitize(item.fields.jumlah.toString());
+
+            htmlString += `
+            <div class="relative break-inside-avoid mx-auto">
+              <div class="relative top-5 bg-black shadow-md mb-4 break-inside-avoid flex flex-col border-2 border-gray-700 transform rotate-1 hover:rotate-0 transition-transform duration-300 w-64 mx-auto rounded-xl">
+                  <div class="bg-gray-800 text-white p-2 border-b-2 border-gray-700 rounded-t-xl">
+                      <h3 class="font-bold text-lg mb-1">${nama_item}</h3>
+                      <p class="text-gray-400">Rp ${harga}</p>
+                  </div>
+                  <div class="p-2 rounded-b-xl">
+                      <p class="font-semibold text-base mb-1 text-white">Description: ${deskripsi}</p>
+                      <p class="text-gray-400 mb-1">Size: ${size}</p>
+                      <p class="text-gray-400 mb-1">Color: ${warna}</p>
+                      <p class="text-gray-400 mb-1">Quantity: ${jumlah}</p>
+                  </div>
+                  <!-- Edit and Delete Buttons -->
+                  <div class="absolute top-0 -right-3 flex space-x-1">
+                      <a href="/edit-item/${item.pk}" class="bg-pink-500 hover:bg-pink-600 text-white p-1 transition duration-300 shadow-md flex items-center rounded-full">
+                          Edit
+                      </a>
+                      <a href="/delete-item/${item.pk}" class="bg-red-500 hover:bg-red-600 text-white p-1 transition duration-300 shadow-md rounded-full">
+                          Delete
+                      </a>
+                  </div>
+              </div>
+            </div>
+            `;
+          });
+    }
+
+    cardInfo.className = classNameString;
+    cardInfo.innerHTML = htmlString;
+}
+
   function showModal() {
-    const modal = document.getElementById('crudModal');
-    const modalContent = document.getElementById('crudModalContent');
-    modal.classList.remove('hidden');
-    setTimeout(() => {
-      modalContent.classList.remove('opacity-0', 'scale-95');
-      modalContent.classList.add('opacity-100', 'scale-100');
-    }, 50);
+      const modal = document.getElementById('crudModal');
+      const modalContent = document.getElementById('crudModalContent');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modalContent.classList.remove('opacity-0', 'scale-95');
+        modalContent.classList.add('opacity-100', 'scale-100');
+      }, 50);
   }
 
   function hideModal() {
-    const modalContent = document.getElementById('crudModalContent');
-    modalContent.classList.remove('opacity-100', 'scale-100');
-    modalContent.classList.add('opacity-0', 'scale-95');
-    setTimeout(() => {
-      document.getElementById('crudModal').classList.add('hidden');
-    }, 150);
+      const modalContent = document.getElementById('crudModalContent');
+      modalContent.classList.remove('opacity-100', 'scale-100');
+      modalContent.classList.add('opacity-0', 'scale-95');
+      setTimeout(() => {
+        document.getElementById('crudModal').classList.add('hidden');
+      }, 150);
   }
 
-  async function addItemEntry() {
-    try {
-      const formData = new FormData(document.querySelector('#ItemEntryForm'));
-
-      // Log form data to check if values are being captured correctly (optional, for debugging)
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-
-      const response = await fetch("{% url 'main:add_item_entry_ajax' %}", {
-        method: "POST",
-        body: formData, // Send form data, including all fields
-        headers: {
-          'X-CSRFToken': getCookie('csrftoken') // Include CSRF token
-        }
-      });
-
+  function addItemEntry() {
+    fetch("{% url 'main:add_item_entry_ajax' %}", {
+      method: "POST",
+      body: new FormData(document.querySelector('#ItemEntryForm')),
+      headers: {
+        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+      },
+    })
+    .then(response => {
       if (response.ok) {
-        await refreshItemEntries(); // Refresh item list after successful addition
-        hideModal(); // Hide modal after success
+        refreshItemEntries();  // Refresh entries after adding
+        hideModal();  // Close the modal
+        document.getElementById('ItemEntryForm').reset();  // Reset the form
       } else {
-        console.error("Failed to add item");
+        throw new Error('Network response was not ok.');
       }
-    } catch (error) {
+    })
+    .catch(error => {
       console.error('Error:', error);
-    }
+      alert('An error occurred while adding the item. Please try again.');
+    });
   }
 
-
-  async function refreshItemEntries() {
-    try {
-      const cardInfo = document.getElementById("card_info");
-      cardInfo.innerHTML = ""; // Clear previous items
-      const response = await fetch("{% url 'main:show_json' %}"); // Fetch item entries
-      const itemEntries = await response.json(); // Parse JSON
-
-      if (itemEntries.length === 0) {
-        cardInfo.innerHTML = `<div class="col-span-full text-center">No item entries available.</div>`;
-      } else {
-        itemEntries.forEach((item) => {
-          const nama_item = DOMPurify.sanitize(item.fields.nama_item); // Sanitize input
-          const harga = DOMPurify.sanitize(item.fields.harga.toString()); // Sanitize input
-          const deskripsi = DOMPurify.sanitize(item.fields.deskripsi); // Sanitize input
-
-          // Append item with Edit and Delete buttons
-          cardInfo.innerHTML += `
-            <div class="bg-white shadow-md rounded-lg p-4 relative">
-              <h3 class="text-lg font-semibold mb-2">${nama_item}</h3>
-              <p class="text-gray-600 mb-2">Price: Rp${harga}</p>
-              <p class="text-gray-700 mb-4">${deskripsi}</p>
-
-              <!-- Edit and Delete buttons -->
-              <div class="absolute top-2 right-2 flex space-x-2">
-                <a href="/edit-item/${item.pk}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded-lg">
-                  Edit
-                </a>
-                <a href="/delete-item/${item.pk}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-lg">
-                  Delete
-                </a>
-              </div>
-            </div>`;
-        });
-      }
-    } catch (error) {
-      console.error('Error fetching items:', error);
-      cardInfo.innerHTML = `<div class="col-span-full text-center text-red-500">Error loading items. Please try again later.</div>`;
-    }
-  }
-  // Event listeners
   document.getElementById("cancelButton").addEventListener("click", hideModal);
   document.getElementById("closeModalBtn").addEventListener("click", hideModal);
   document.getElementById("submitItemEntry").addEventListener("click", (e) => {
@@ -208,7 +219,7 @@
     addItemEntry();
   });
 
-  // Load entries on page load
-  document.addEventListener('DOMContentLoaded', refreshItemEntries);
+  refreshItemEntries();
 </script>
+
 {% endblock content %}
