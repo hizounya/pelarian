@@ -137,3 +137,30 @@ Flexbox: tata letak yang fleksibel untuk item dalam satu arah (baris/kolom). Gri
 Saya memulai dengan mengatur project dan memastikan struktur foldernya jelas, serta menginstal semua dependensi yang dibutuhkan. Setelah itu, saya membuat form dengan Django untuk mengatur input data dan menampilkannya di template. Untuk styling, saya menambahkan CSS dasar dan menggunakan media queries agar tampilan responsif di berbagai ukuran layar.
 
 Pada bagian tata letak, saya memanfaatkan flexbox untuk mengatur elemen seperti navbar dan daftar item agar fleksibel dan mudah beradaptasi dengan ukuran layar yang lebih kecil. Selain itu, untuk halaman yang lebih kompleks, saya menggunakan grid layout. Setelah semua fitur diimplementasikan, saya menguji aplikasi di berbagai perangkat dan browser untuk memastikan semuanya berfungsi dengan baik.
+
+
+
+TUGAS 6
+1. Manfaat Penggunaan JavaScript dalam Pengembangan Aplikasi Web
+
+JavaScript membuat halaman lebih interaktif dan responsif, memungkinkan perubahan elemen tanpa reload, seperti validasi input dan pengambilan data via AJAX.
+
+2. Fungsi await pada fetch()
+
+await menunggu hasil dari fetch() sebelum melanjutkan kode. Tanpa await, kode akan lanjut tanpa menunggu respons dari server, menyebabkan data mungkin belum tersedia
+
+3. Alasan Penggunaan Decorator csrf_exempt
+
+csrf_exempt digunakan untuk menghindari pengecekan CSRF pada AJAX POST, sehingga request tidak diblokir oleh mekanisme keamanan CSRF.
+
+4. Mengapa Pembersihan Data Input Dilakukan di Backend?
+
+Validasi di frontend bisa dimanipulasi. Oleh karena itu, pembersihan di backend memastikan data aman dan valid sebelum disimpan.
+
+5. Implementasi Checklist
+
+    Saya menyiapkan proyek Django dan membuat model yang sesuai.
+    Saya menambahkan modal input item menggunakan Tailwind CSS.
+    Saya menggunakan AJAX untuk submit form agar tidak perlu reload halaman.
+    Saya melakukan validasi dan pembersihan data di backend untuk keamanan.
+    Saya menguji setiap fitur modal dan AJAX untuk memastikan semuanya berfungsi dengan baik.
